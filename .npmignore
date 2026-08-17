@@ -1,0 +1,8 @@
+demo/
+icons/
+.git/
+.github/
+CONTRIBUTING.md
+CHANGELOG.md
+vite.config.js
+.gitignore
