@@ -9,6 +9,7 @@ A modern, themeable BPMN renderer built on [bpmn-js](https://github.com/bpmn-io/
 - Custom node designs for all BPMN element types (tasks, events, gateways, data, artifacts)
 - Distinct SVG icons per element type (service task, user task, script task, etc.)
 - Dark/light theme with automatic color adaptation for inline BPMN colors
+- Node state badges (running, completed, incident, hold) with visual indicators
 - Edge animations (parallel dots, sequential traversal, loading beads)
 - Edge highlighting API for process visualization
 - Hover cards showing element metadata
@@ -90,11 +91,45 @@ unhighlightAll();
 // Stop all animations
 renderer.stopAllEdgeAnimations();
 
+// Node state badges
+renderer.setNodeStates({
+  'Task_1': 'running',    // green spinner badge
+  'Task_2': 'completed',  // gray checkmark badge
+  'Task_3': 'incident',   // red ⚡ badge + pulsating glow
+  'Task_4': 'hold',       // yellow pause badge
+});
+
+// Clear specific badges
+renderer.clearNodeStates(['Task_1', 'Task_2']);
+
+// Clear all badges
+renderer.clearNodeStates();
+
 // Access underlying bpmn-js viewer
 const viewer = renderer.getViewer();
 
 // Cleanup
 renderer.destroy();
+```
+
+## Node State Badges
+
+Visualize runtime process state by applying badges to any node. Badges appear outside the top-right corner of the node.
+
+| State | Badge | Effect |
+|-------|-------|--------|
+| `running` | Green circle with spinning loader | Indicates active execution |
+| `completed` | Gray circle with ✓ checkmark | Node finished successfully |
+| `incident` | Red circle with ⚡ bolt | Pulsating red glow on the node |
+| `hold` | Yellow circle with ⏸ pause bars | Execution paused/waiting |
+
+```js
+renderer.setNodeStates({
+  'ServiceTask_1': 'running',
+  'UserTask_2': 'completed',
+  'ScriptTask_3': 'incident',
+  'CallActivity_4': 'hold',
+});
 ```
 
 ## Node Designs
@@ -196,6 +231,7 @@ lib/                          # The library (published to npm)
   utils.js                    # Shared utilities
   hoverCard.js                # Hover overlay
   styles.css                  # Base styles (import in your app)
+  badges.js                   # Node state badges API
   renderer/
     BeatRenderer.js           # bpmn-js BaseRenderer
     shapes.js                 # Node draw functions

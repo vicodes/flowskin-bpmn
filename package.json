@@ -16,7 +16,7 @@
     "dev": "vite",
     "build": "vite build --emptyOutDir",
     "preview": "vite preview",
-    "test": "echo \"No tests yet\" && exit 0"  
+    "test": "echo \"No tests yet\" && exit 0"
   },
   "peerDependencies": {
     "bpmn-js": ">=14.0.0"

@@ -61,6 +61,33 @@ animBtn.addEventListener('click', () => {
   stopCurrentAnim = beat.animateEdges(edgeIds, { type: next });
 });
 
+// Badges demo toggle
+const badgeBtn = document.getElementById('badge-toggle');
+let badgesActive = false;
+
+if (badgeBtn) {
+  badgeBtn.addEventListener('click', () => {
+    badgesActive = !badgesActive;
+    badgeBtn.textContent = badgesActive ? 'Clear Badges' : 'Badges';
+
+    if (badgesActive) {
+      const registry = beat.getViewer().get('elementRegistry');
+      const tasks = registry.filter(el => el.type && el.type.includes('Task'));
+      const states = {};
+      tasks.forEach((t, i) => {
+        const mod = i % 4;
+        if (mod === 0) states[t.id] = 'running';
+        else if (mod === 1) states[t.id] = 'completed';
+        else if (mod === 2) states[t.id] = { state: 'incident', count: 2 };
+        else states[t.id] = 'hold';
+      });
+      beat.setNodeStates(states);
+    } else {
+      beat.clearNodeStates();
+    }
+  });
+}
+
 // Raw BPMN toggle
 const rawBtn = document.getElementById('raw-toggle');
 let isRaw = false;
