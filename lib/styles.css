@@ -1,0 +1,106 @@
+/* FlowSkin BPMN - base styles */
+:root {
+  --dbr-bg: #0a0a0f;
+  --dbr-surface: #12121a;
+  --dbr-border: #1e1e2e;
+  --dbr-accent: #4361ee;
+  --dbr-text: #e0e0e0;
+  --dbr-text-muted: #6b6b7b;
+  --dbr-dot-color: #1e1e2e;
+}
+
+[data-theme="light"] {
+  --dbr-bg: #f5f5f7;
+  --dbr-surface: #ffffff;
+  --dbr-border: #e0e0e0;
+  --dbr-accent: #4361ee;
+  --dbr-text: #1a1a2e;
+  --dbr-text-muted: #6b6b7b;
+  --dbr-dot-color: #d0d0d0;
+}
+
+/* Canvas background */
+.djs-container {
+  background:
+    radial-gradient(circle, var(--dbr-dot-color) 1px, transparent 1px) !important;
+  background-size: 24px 24px !important;
+  background-color: var(--dbr-bg) !important;
+}
+
+/* Labels */
+.djs-label text,
+tspan {
+  font-family: 'Inter', 'SF Pro', sans-serif !important;
+  font-size: 11px !important;
+  fill: var(--dbr-text) !important;
+}
+
+/* Hide outline */
+.djs-outline {
+  stroke: none !important;
+  fill: none !important;
+  display: none !important;
+}
+
+/* Suppress default dashes except animated ones */
+.djs-visual path:not([data-anim-id]),
+.djs-visual rect,
+.djs-visual polygon {
+  stroke-dasharray: none !important;
+}
+
+/* Palette */
+.djs-palette {
+  background: var(--dbr-surface) !important;
+  border: 1px solid var(--dbr-border) !important;
+  border-radius: 8px !important;
+}
+
+.djs-context-pad {
+  background: var(--dbr-surface) !important;
+  border: 1px solid var(--dbr-border) !important;
+  border-radius: 8px !important;
+}
+
+/* Hover card */
+#beat-hover-card {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  background: var(--dbr-surface);
+  border: 1px solid var(--dbr-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  min-width: 180px;
+  max-width: 280px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: var(--dbr-text);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  pointer-events: none;
+}
+
+#beat-hover-card .hc-type {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--dbr-text-muted);
+  margin-bottom: 4px;
+}
+
+#beat-hover-card .hc-name {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--dbr-accent);
+}
+
+#beat-hover-card .hc-row {
+  margin-bottom: 3px;
+  color: var(--dbr-text);
+}
+
+#beat-hover-card .hc-row span {
+  color: var(--dbr-text-muted);
+  font-weight: 500;
+}

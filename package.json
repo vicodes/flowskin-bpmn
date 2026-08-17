@@ -1,0 +1,44 @@
+{
+  "name": "flowskin-bpmn",
+  "version": "1.0.0",
+  "description": "A modern skin layer for BPMN diagrams — themed nodes, animated edges, and hover cards built on bpmn-js",
+  "type": "module",
+  "main": "./lib/index.js",
+  "module": "./lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./styles": "./lib/styles.css"
+  },
+  "files": [
+    "lib/"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "peerDependencies": {
+    "bpmn-js": ">=14.0.0"
+  },
+  "devDependencies": {
+    "bpmn-js": "^17.11.1",
+    "vite": "^5.4.0"
+  },
+  "keywords": [
+    "bpmn",
+    "bpmn-js",
+    "renderer",
+    "process-modeling",
+    "diagram",
+    "workflow"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/user/flowskin-bpmn"
+  },
+  "homepage": "https://github.com/user/flowskin-bpmn#readme",
+  "bugs": {
+    "url": "https://github.com/user/flowskin-bpmn/issues"
+  }
+}

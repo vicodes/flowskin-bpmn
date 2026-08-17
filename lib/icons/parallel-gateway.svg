@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Git-style branch: single line forks into two, both continue forward -->
+  <g stroke="#3463F3" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Main trunk -->
+    <line x1="12" y1="50" x2="35" y2="50"/>
+    <!-- Fork point circle -->
+    <circle cx="35" cy="50" r="8" fill="#3463F3" stroke="none"/>
+    <!-- Upper branch -->
+    <path d="M43 50 C55 50 55 30 65 30 L88 30"/>
+    <!-- Lower branch -->
+    <path d="M43 50 C55 50 55 70 65 70 L88 70"/>
+  </g>
+  <!-- Branch end dots -->
+  <circle cx="88" cy="30" r="5" fill="#3463F3"/>
+  <circle cx="88" cy="70" r="5" fill="#3463F3"/>
+</svg>

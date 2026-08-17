@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlowSkin BPMN - Demo</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div id="toolbar">
+    <h1>FlowSkin BPMN</h1>
+    <span class="subtitle">Demo</span>
+    <label class="import-btn">
+      Import BPMN
+      <input type="file" id="file-input" accept=".bpmn,.xml" hidden>
+    </label>
+    <button id="anim-toggle" class="theme-btn" title="Toggle animation mode">Sequential</button>
+    <button id="raw-toggle" class="theme-btn" title="Toggle raw BPMN view">Raw</button>
+    <button id="theme-toggle" class="theme-btn" title="Toggle theme">☀</button>
+  </div>
+  <div id="canvas"></div>
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

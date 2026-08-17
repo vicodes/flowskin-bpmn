@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Paper plane / send -->
+  <path d="M15 50 L85 25 L60 75 L48 55 Z" stroke="#3463F3" stroke-width="5" stroke-linejoin="round" fill="none"/>
+  <line x1="85" y1="25" x2="48" y2="55" stroke="#3463F3" stroke-width="4" stroke-linecap="round"/>
+</svg>

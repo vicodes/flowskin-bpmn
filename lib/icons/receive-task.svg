@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Inbox tray / receive -->
+  <rect x="20" y="30" width="60" height="40" rx="4" stroke="#3463F3" stroke-width="5" fill="none"/>
+  <path d="M20 50 L40 50 L45 58 L55 58 L60 50 L80 50" stroke="#3463F3" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>

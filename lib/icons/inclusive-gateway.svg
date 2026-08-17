@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Simplified: circle node with three output branches -->
+  <g stroke="#3463F3" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <line x1="10" y1="50" x2="28" y2="50"/>
+    <line x1="48" y1="50" x2="80" y2="50"/>
+    <path d="M42 42 L70 22 L80 22"/>
+    <path d="M42 58 L70 78 L80 78"/>
+  </g>
+  <circle cx="10" cy="50" r="6" fill="#3463F3"/>
+  <circle cx="38" cy="50" r="12" fill="white" stroke="#3463F3" stroke-width="5"/>
+  <circle cx="38" cy="50" r="5" fill="#3463F3"/>
+  <circle cx="84" cy="22" r="6" fill="#3463F3"/>
+  <circle cx="84" cy="50" r="6" fill="#3463F3"/>
+  <circle cx="84" cy="78" r="6" fill="#3463F3"/>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Compensate: double rewind triangles -->
+  <polygon points="50,30 50,70 20,50" stroke="#3463F3" stroke-width="5" stroke-linejoin="round" fill="none"/>
+  <polygon points="80,30 80,70 50,50" stroke="#3463F3" stroke-width="5" stroke-linejoin="round" fill="none"/>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Hand/manual task — simple checkmark in a box (generic task) -->
+  <rect x="20" y="25" width="60" height="50" rx="6" stroke="#3463F3" stroke-width="5" fill="none"/>
+  <polyline points="35,52 45,62 65,40" stroke="#3463F3" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>

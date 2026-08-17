@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Event-based: pentagon inside circle -->
+  <circle cx="50" cy="50" r="32" stroke="#3463F3" stroke-width="5" fill="none"/>
+  <polygon points="50,22 74,42 65,72 35,72 26,42" stroke="#3463F3" stroke-width="4" stroke-linejoin="round" fill="none"/>
+</svg>

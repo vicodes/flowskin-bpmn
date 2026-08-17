@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="10 10 80 80" fill="none">
+  <!-- Data object: document with folded corner -->
+  <path d="M25 15 L65 15 L75 28 L75 85 L25 85 Z" stroke="#3463F3" stroke-width="5" stroke-linejoin="round" fill="none"/>
+  <path d="M65 15 L65 28 L75 28" stroke="#3463F3" stroke-width="4" stroke-linejoin="round" fill="none"/>
+</svg>
