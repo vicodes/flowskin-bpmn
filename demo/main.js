@@ -1,4 +1,4 @@
-import { createFlowSkinBPMNBPMN } from 'flowskin-bpmn';
+import { createFlowSkinBPMN } from 'flowskin-bpmn';
 import BpmnViewer from 'bpmn-js/lib/NavigatedViewer';
 import sampleXml from './sample.bpmn?raw';
 
