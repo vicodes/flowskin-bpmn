@@ -1,5 +1,5 @@
 {
-  "name": "@m_vicodes/flowskin-bpmn",
+  "name": "@flowskin-bpmn/flowskin-bpmn",
   "version": "1.0.0",
   "description": "A modern skin layer for BPMN diagrams — themed nodes, animated edges, and hover cards built on bpmn-js",
   "type": "module",
