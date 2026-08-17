@@ -2,6 +2,8 @@
 
 A modern, themeable BPMN renderer built on [bpmn-js](https://github.com/bpmn-io/bpmn-js). Replaces the standard BPMN notation with a clean, futuristic design language while keeping full BPMN 2.0 XML compatibility underneath.
 
+**[Working Demo](https://vicodes.github.io/flowskin-bpmn/)**
+
 ## Features
 
 - Custom node designs for all BPMN element types (tasks, events, gateways, data, artifacts)
