@@ -105,6 +105,22 @@ tspan {
   font-weight: 500;
 }
 
+/* Modeler palette & context pad */
+.djs-palette .entry:hover {
+  color: var(--dbr-accent) !important;
+}
+
+.djs-popup {
+  background: var(--dbr-surface) !important;
+  border: 1px solid var(--dbr-border) !important;
+  border-radius: 8px !important;
+  color: var(--dbr-text) !important;
+}
+
+.djs-popup .entry:hover {
+  background: var(--dbr-border) !important;
+}
+
 /* Node state badges */
 @keyframes incident-pulse {
   0%, 100% { filter: drop-shadow(0 0 4px #ef4444); }
