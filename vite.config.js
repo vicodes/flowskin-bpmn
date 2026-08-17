@@ -3,6 +3,11 @@ import { resolve } from 'path';
 
 export default defineConfig({
   root: 'demo',
+   base: '/flowskin-bpmn/',                                                                  
+  build: {                                                                                  
+    outDir: resolve(__dirname, 'dist'),                                                     
+    emptyOutDir: true,                                                                      
+  },  
   server: {
     port: 3000,
     open: true,
