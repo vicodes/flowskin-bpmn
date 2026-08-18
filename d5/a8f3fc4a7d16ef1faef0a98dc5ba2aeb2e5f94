@@ -1,0 +1,36 @@
+demo/flatten.html
+  s_d38b8c7435ac76::t_9fbaf8eb5c61ca 1-67
+lib/renderer/BeatRenderer.js
+  s_d38b8c7435ac76::t_c4d2c90a3589a4 34
+demo/sample-parent.bpmn
+  s_d38b8c7435ac76::t_8e1b8a5c104866 1-100
+demo/index.html
+  s_d38b8c7435ac76::t_2a828fa06bfe51 22
+lib/styles.css
+  s_d38b8c7435ac76::t_9d45e96868d8cb 45,47
+demo/sample-child.bpmn
+  s_d38b8c7435ac76::t_4c8a2af20ab967 1-86
+demo/flatten.js
+  s_d38b8c7435ac76::t_0b5ec24525d850 1-113
+lib/renderer/shapes.js
+  s_d38b8c7435ac76::t_628b964fb290ae 79
+  s_d38b8c7435ac76::t_1a68371a8af2c8 369
+  s_d38b8c7435ac76::t_a72d42c9de6651 372,375-382,384-385,387
+  s_d38b8c7435ac76::t_690c2496e54329 383
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "d5a8f3fc4a7d16ef1faef0a98dc5ba2aeb2e5f94",
+  "prompts": {},
+  "sessions": {
+    "s_d38b8c7435ac76": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6e4ae24f-1fb4-4d81-a67b-0fe643a68356",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Mohit Singh <mohitsinghibm@gmail.com>"
+    }
+  }
+}
