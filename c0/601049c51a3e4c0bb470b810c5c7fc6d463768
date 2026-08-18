@@ -1,0 +1,26 @@
+package.json
+  s_d38b8c7435ac76::t_538f7af7e9723f 22-24
+lib/flattenBpmn.js
+  s_d38b8c7435ac76::t_a9962fcb9dc9d2 1
+  s_d38b8c7435ac76::t_1edb0a48bc1984 2-511
+lib/index.js
+  s_d38b8c7435ac76::t_d72d5fc6726ae3 162
+package-lock.json
+  s_d38b8c7435ac76::t_80d46b0fdd86ac 2-3,8-10,12,15,17-19,26,802,818,822,830-872,877,887,894,915,932,945,952,963,973,1037,1044,1051,1064,1073-1075,1078,1082-1084,1088-1094,1120,1130,1176,1238-1244,1260
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "c0601049c51a3e4c0bb470b810c5c7fc6d463768",
+  "prompts": {},
+  "sessions": {
+    "s_d38b8c7435ac76": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6e4ae24f-1fb4-4d81-a67b-0fe643a68356",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Mohit Singh <mohitsinghibm@gmail.com>"
+    }
+  }
+}
