@@ -19,6 +19,9 @@
     "preview": "vite preview",
     "test": "echo \"No tests yet\" && exit 0"
   },
+  "dependencies": {
+    "bpmn-moddle": "^9.0.1"
+  },
   "peerDependencies": {
     "bpmn-js": ">=14.0.0"
   },
