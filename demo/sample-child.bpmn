@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_2" targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <bpmn:process id="Process_Shipping" name="Shipping Process" isExecutable="true">
+    <bpmn:startEvent id="Ship_Start" name="Start Shipping">
+      <bpmn:outgoing>SF_1</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:serviceTask id="Task_Pick" name="Pick Items">
+      <bpmn:incoming>SF_1</bpmn:incoming>
+      <bpmn:outgoing>SF_2</bpmn:outgoing>
+    </bpmn:serviceTask>
+
+    <bpmn:serviceTask id="Task_Pack" name="Pack Items">
+      <bpmn:incoming>SF_2</bpmn:incoming>
+      <bpmn:outgoing>SF_3</bpmn:outgoing>
+    </bpmn:serviceTask>
+
+    <bpmn:serviceTask id="Task_Label" name="Print Label">
+      <bpmn:incoming>SF_3</bpmn:incoming>
+      <bpmn:outgoing>SF_4</bpmn:outgoing>
+    </bpmn:serviceTask>
+
+    <bpmn:serviceTask id="Task_Dispatch" name="Dispatch">
+      <bpmn:incoming>SF_4</bpmn:incoming>
+      <bpmn:outgoing>SF_5</bpmn:outgoing>
+    </bpmn:serviceTask>
+
+    <bpmn:endEvent id="Ship_End" name="Shipped">
+      <bpmn:incoming>SF_5</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:sequenceFlow id="SF_1" sourceRef="Ship_Start" targetRef="Task_Pick" />
+    <bpmn:sequenceFlow id="SF_2" sourceRef="Task_Pick" targetRef="Task_Pack" />
+    <bpmn:sequenceFlow id="SF_3" sourceRef="Task_Pack" targetRef="Task_Label" />
+    <bpmn:sequenceFlow id="SF_4" sourceRef="Task_Label" targetRef="Task_Dispatch" />
+    <bpmn:sequenceFlow id="SF_5" sourceRef="Task_Dispatch" targetRef="Ship_End" />
+  </bpmn:process>
+
+  <bpmndi:BPMNDiagram id="BPMNDiagram_2">
+    <bpmndi:BPMNPlane id="BPMNPlane_2" bpmnElement="Process_Shipping">
+      <bpmndi:BPMNShape id="Ship_Start_di" bpmnElement="Ship_Start">
+        <dc:Bounds x="180" y="200" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Pick_di" bpmnElement="Task_Pick">
+        <dc:Bounds x="270" y="178" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Pack_di" bpmnElement="Task_Pack">
+        <dc:Bounds x="420" y="178" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Label_di" bpmnElement="Task_Label">
+        <dc:Bounds x="570" y="178" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_Dispatch_di" bpmnElement="Task_Dispatch">
+        <dc:Bounds x="720" y="178" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Ship_End_di" bpmnElement="Ship_End">
+        <dc:Bounds x="872" y="200" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SF_1_di" bpmnElement="SF_1">
+        <di:waypoint x="216" y="218" />
+        <di:waypoint x="270" y="218" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SF_2_di" bpmnElement="SF_2">
+        <di:waypoint x="370" y="218" />
+        <di:waypoint x="420" y="218" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SF_3_di" bpmnElement="SF_3">
+        <di:waypoint x="520" y="218" />
+        <di:waypoint x="570" y="218" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SF_4_di" bpmnElement="SF_4">
+        <di:waypoint x="670" y="218" />
+        <di:waypoint x="720" y="218" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SF_5_di" bpmnElement="SF_5">
+        <di:waypoint x="820" y="218" />
+        <di:waypoint x="872" y="218" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

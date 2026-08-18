@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlowSkin BPMN - Flatten Demo</title>
+  <link rel="stylesheet" href="./styles.css">
+  <style>
+    body { display: grid; grid-template-rows: auto 1fr; grid-template-columns: 280px 1fr; height: 100vh; }
+    #toolbar { grid-column: 1 / -1; }
+    #sidebar { background: var(--dbr-surface); border-right: 1px solid var(--dbr-border); padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+    #sidebar h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--dbr-text-muted); margin: 0; }
+    #main-area { display: grid; grid-template-rows: 1fr 1fr; gap: 1px; background: var(--dbr-border); }
+    #main-area.has-result { grid-template-rows: 1fr 1fr 1fr; }
+    .panel { position: relative; background: var(--dbr-bg); }
+    .panel-label { position: absolute; top: 8px; left: 12px; font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--dbr-text-muted); z-index: 10; background: var(--dbr-surface); padding: 2px 8px; border-radius: 4px; border: 1px solid var(--dbr-border); }
+    .edge-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px; max-height: 200px; overflow-y: auto; }
+    .edge-list li { font-size: 11px; padding: 5px 8px; background: var(--dbr-bg); border: 1px solid var(--dbr-border); border-radius: 4px; cursor: pointer; color: var(--dbr-text); transition: background 0.15s, border-color 0.15s; display: flex; align-items: center; gap: 6px; }
+    .edge-list li:hover { border-color: var(--dbr-accent); }
+    .edge-list li.selected { background: rgba(67,97,238,0.15); border-color: var(--dbr-accent); }
+    .edge-list li .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--dbr-border); flex-shrink: 0; }
+    .edge-list li.selected .dot { background: var(--dbr-accent); }
+    .section { display: flex; flex-direction: column; gap: 6px; }
+    #flatten-btn { padding: 10px; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; background: var(--dbr-accent); color: #fff; border: none; border-radius: 6px; cursor: pointer; transition: opacity 0.2s; }
+    #flatten-btn:hover { opacity: 0.85; }
+    #flatten-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .empty-state { font-size: 11px; color: var(--dbr-text-muted); padding: 8px; text-align: center; }
+  </style>
+</head>
+<body>
+  <div id="toolbar">
+    <h1>FlowSkin BPMN</h1>
+    <span class="subtitle">Flatten Demo</span>
+    <a href="./index.html" class="theme-btn" style="text-decoration:none;">← Main Demo</a>
+  </div>
+  <div id="sidebar">
+    <div class="section">
+      <h3>Parent Edges</h3>
+      <ul id="parent-edges" class="edge-list">
+        <li class="empty-state">Loading...</li>
+      </ul>
+    </div>
+    <div class="section">
+      <h3>Child Edges</h3>
+      <ul id="child-edges" class="edge-list">
+        <li class="empty-state">Loading...</li>
+      </ul>
+    </div>
+    <button id="flatten-btn" disabled>Flatten Executed Path</button>
+  </div>
+  <div id="main-area">
+    <div class="panel" id="parent-panel">
+      <div class="panel-label">Parent Process</div>
+      <div id="parent-canvas" style="width:100%;height:100%;"></div>
+    </div>
+    <div class="panel" id="child-panel">
+      <div class="panel-label">Child Process</div>
+      <div id="child-canvas" style="width:100%;height:100%;"></div>
+    </div>
+    <div class="panel" id="result-panel" style="display:none;">
+      <div class="panel-label">Flattened Result</div>
+      <div id="result-canvas" style="width:100%;height:100%;"></div>
+    </div>
+  </div>
+  <script type="module" src="./flatten.js"></script>
+</body>
+</html>
