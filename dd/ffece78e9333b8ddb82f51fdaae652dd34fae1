@@ -1,0 +1,24 @@
+lib/renderer/shapes.js
+  s_69520820bb879c::t_3acd2fefc64eae 241-244
+  s_69520820bb879c::t_adab64964073a4 236
+  s_69520820bb879c::t_64930fd7c63ee1 248-267
+  s_69520820bb879c::t_88cc596aad2c1b 198-199
+  s_69520820bb879c::t_f7b0daf4decdd2 205,207-221,233-235,237-240,246,268-269
+  s_69520820bb879c::t_ec9774c5cde25c 222-232,247
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "ddffece78e9333b8ddb82f51fdaae652dd34fae1",
+  "prompts": {},
+  "sessions": {
+    "s_69520820bb879c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2a7c2bae-a01c-420e-b483-60d9d00097ee",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Mohit Singh <mohitsinghibm@gmail.com>"
+    }
+  }
+}
