@@ -7,23 +7,21 @@
     <bpmn:participant id="Participant_0hzlcb8" name="Empty pool" />
     <bpmn:messageFlow id="MsgFlow_1" sourceRef="Task_Send" targetRef="Event_ExtMsgStart" />
     <bpmn:messageFlow id="MsgFlow_2" sourceRef="Task_ExtReply" targetRef="Event_MsgIntermediate" />
+    <bpmn:messageFlow id="Flow_0fzerqj" sourceRef="Participant_0hzlcb8" targetRef="Participant_Main" />
   </bpmn:collaboration>
   <bpmn:process id="Process_Main" name="Order Processing" isExecutable="true">
     <bpmn:startEvent id="Event_Start" name="Order Received">
       <bpmn:outgoing>Flow_1</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:startEvent id="Event_TimerStart" name="Daily Batch">
-      <bpmn:outgoing>Flow_TimerStart</bpmn:outgoing>
       <bpmn:timerEventDefinition id="TimerDef_Start">
         <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">R/P1D</bpmn:timeCycle>
       </bpmn:timerEventDefinition>
     </bpmn:startEvent>
     <bpmn:startEvent id="Event_SignalStart" name="Priority Signal">
-      <bpmn:outgoing>Flow_SignalStart</bpmn:outgoing>
       <bpmn:signalEventDefinition id="SignalDef_Start" signalRef="Signal_Priority" />
     </bpmn:startEvent>
     <bpmn:startEvent id="Event_ConditionalStart" name="Stock Low">
-      <bpmn:outgoing>Flow_CondStart</bpmn:outgoing>
       <bpmn:conditionalEventDefinition id="CondDef_Start">
         <bpmn:condition xsi:type="bpmn:tFormalExpression">#{stock &lt; 10}</bpmn:condition>
       </bpmn:conditionalEventDefinition>
@@ -86,12 +84,7 @@
       <bpmn:outgoing>Flow_FromEventGw1</bpmn:outgoing>
       <bpmn:outgoing>Flow_FromEventGw2</bpmn:outgoing>
     </bpmn:eventBasedGateway>
-    <bpmn:complexGateway id="Gateway_Complex" name="Complex Routing">
-      <bpmn:incoming>Flow_TimerStart</bpmn:incoming>
-      <bpmn:incoming>Flow_SignalStart</bpmn:incoming>
-      <bpmn:incoming>Flow_CondStart</bpmn:incoming>
-      <bpmn:outgoing>Flow_ComplexOut</bpmn:outgoing>
-    </bpmn:complexGateway>
+    <bpmn:complexGateway id="Gateway_Complex" name="Complex Routing" />
     <bpmn:serviceTask id="Task_CheckInventory" name="Check Inventory">
       <bpmn:incoming>Flow_Par1</bpmn:incoming>
       <bpmn:outgoing>Flow_Par1Done</bpmn:outgoing>
@@ -113,44 +106,19 @@
       </bpmn:timerEventDefinition>
     </bpmn:intermediateCatchEvent>
     <bpmn:intermediateThrowEvent id="Event_SignalThrow" name="Notify Warehouse">
-      <bpmn:incoming>Flow_ComplexOut</bpmn:incoming>
-      <bpmn:outgoing>Flow_SignalToLink</bpmn:outgoing>
       <bpmn:signalEventDefinition id="SignalDef_Throw" signalRef="Signal_Warehouse" />
     </bpmn:intermediateThrowEvent>
     <bpmn:intermediateThrowEvent id="Event_LinkThrow" name="Go To Shipping">
-      <bpmn:incoming>Flow_SignalToLink</bpmn:incoming>
       <bpmn:linkEventDefinition id="LinkDef_Throw" name="ShippingLink" />
     </bpmn:intermediateThrowEvent>
     <bpmn:intermediateCatchEvent id="Event_LinkCatch" name="From Shipping Link">
-      <bpmn:outgoing>Flow_LinkToCompensate</bpmn:outgoing>
       <bpmn:linkEventDefinition id="LinkDef_Catch" name="ShippingLink" />
     </bpmn:intermediateCatchEvent>
-    <bpmn:intermediateThrowEvent id="Event_CompensateThrow" name="Trigger Compensation">
-      <bpmn:incoming>Flow_LinkToCompensate</bpmn:incoming>
-      <bpmn:outgoing>Flow_CompToEnd2</bpmn:outgoing>
-      <bpmn:compensateEventDefinition id="CompDef_Throw" />
-    </bpmn:intermediateThrowEvent>
     <bpmn:intermediateThrowEvent id="Event_EscalationThrow" name="Escalate to Manager">
       <bpmn:incoming>Flow_TimerToEscalation</bpmn:incoming>
       <bpmn:outgoing>Flow_EscToEnd3</bpmn:outgoing>
       <bpmn:escalationEventDefinition id="EscDef_Throw" escalationRef="Escalation_Timeout" />
     </bpmn:intermediateThrowEvent>
-    <bpmn:subProcess id="SubProcess_1" name="Handle Returns">
-      <bpmn:incoming>Flow_ExDefault</bpmn:incoming>
-      <bpmn:outgoing>Flow_SubToCancel</bpmn:outgoing>
-      <bpmn:startEvent id="Event_SubStart">
-        <bpmn:outgoing>Flow_Sub1</bpmn:outgoing>
-      </bpmn:startEvent>
-      <bpmn:userTask id="Task_SubUser" name="Process Refund">
-        <bpmn:incoming>Flow_Sub1</bpmn:incoming>
-        <bpmn:outgoing>Flow_Sub2</bpmn:outgoing>
-      </bpmn:userTask>
-      <bpmn:endEvent id="Event_SubEnd">
-        <bpmn:incoming>Flow_Sub2</bpmn:incoming>
-      </bpmn:endEvent>
-      <bpmn:sequenceFlow id="Flow_Sub1" sourceRef="Event_SubStart" targetRef="Task_SubUser" />
-      <bpmn:sequenceFlow id="Flow_Sub2" sourceRef="Task_SubUser" targetRef="Event_SubEnd" />
-    </bpmn:subProcess>
     <bpmn:callActivity id="CallActivity_1" name="Invoke Shipping Process">
       <bpmn:incoming>Flow_ToEnd</bpmn:incoming>
       <bpmn:outgoing>Flow_CallToEnd</bpmn:outgoing>
@@ -169,10 +137,6 @@
       <bpmn:outgoing>Flow_BoundaryMsg</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MsgDef_Boundary" messageRef="Message_Cancel" />
     </bpmn:boundaryEvent>
-    <bpmn:boundaryEvent id="Event_BoundarySignal" cancelActivity="false" attachedToRef="SubProcess_1">
-      <bpmn:outgoing>Flow_BoundarySignal</bpmn:outgoing>
-      <bpmn:signalEventDefinition id="SignalDef_Boundary" signalRef="Signal_Priority" />
-    </bpmn:boundaryEvent>
     <bpmn:endEvent id="Event_End" name="Order Complete">
       <bpmn:incoming>Flow_CallToEnd</bpmn:incoming>
     </bpmn:endEvent>
@@ -180,33 +144,18 @@
       <bpmn:incoming>Flow_BoundaryError</bpmn:incoming>
       <bpmn:errorEventDefinition id="ErrorDef_End" errorRef="Error_Payment" />
     </bpmn:endEvent>
-    <bpmn:endEvent id="Event_EndSignal" name="Signal Sent">
-      <bpmn:incoming>Flow_BoundarySignal</bpmn:incoming>
-      <bpmn:signalEventDefinition id="SignalDef_End" signalRef="Signal_Warehouse" />
-    </bpmn:endEvent>
     <bpmn:endEvent id="Event_EndTerminate" name="Abort Process">
       <bpmn:incoming>Flow_BoundaryMsg</bpmn:incoming>
       <bpmn:terminateEventDefinition id="TermDef_End" />
-    </bpmn:endEvent>
-    <bpmn:endEvent id="Event_EndCancel" name="Order Cancelled">
-      <bpmn:incoming>Flow_SubToCancel</bpmn:incoming>
-      <bpmn:cancelEventDefinition id="CancelDef_End" />
     </bpmn:endEvent>
     <bpmn:endEvent id="Event_EndEscalation" name="Escalated">
       <bpmn:incoming>Flow_EscToEnd3</bpmn:incoming>
       <bpmn:escalationEventDefinition id="EscDef_End" escalationRef="Escalation_Timeout" />
     </bpmn:endEvent>
-    <bpmn:endEvent id="Event_EndCompensate" name="Compensated">
-      <bpmn:incoming>Flow_CompToEnd2</bpmn:incoming>
-      <bpmn:compensateEventDefinition id="CompDef_End" />
-    </bpmn:endEvent>
     <bpmn:endEvent id="Event_EndMessage" name="Notification Sent">
       <bpmn:incoming>Flow_BoundaryTimer</bpmn:incoming>
       <bpmn:messageEventDefinition id="MsgDef_End" messageRef="Message_Reminder" />
     </bpmn:endEvent>
-    <bpmn:dataObjectReference id="DataObject_1" name="Order Data" dataObjectRef="DataObj_1" />
-    <bpmn:dataObject id="DataObj_1" />
-    <bpmn:dataStoreReference id="DataStore_1" name="Order Database" />
     <bpmn:sequenceFlow id="Flow_1" sourceRef="Event_Start" targetRef="Task_User" />
     <bpmn:sequenceFlow id="Flow_2" sourceRef="Task_User" targetRef="Task_Service" />
     <bpmn:sequenceFlow id="Flow_3" sourceRef="Task_Service" targetRef="Gateway_Exclusive" />
@@ -231,20 +180,49 @@
     <bpmn:sequenceFlow id="Flow_FromEventGw2" sourceRef="Gateway_EventBased" targetRef="Task_Receive" />
     <bpmn:sequenceFlow id="Flow_ToEnd" sourceRef="Task_Receive" targetRef="CallActivity_1" />
     <bpmn:sequenceFlow id="Flow_CallToEnd" sourceRef="CallActivity_1" targetRef="Event_End" />
-    <bpmn:sequenceFlow id="Flow_TimerStart" sourceRef="Event_TimerStart" targetRef="Gateway_Complex" />
-    <bpmn:sequenceFlow id="Flow_SignalStart" sourceRef="Event_SignalStart" targetRef="Gateway_Complex" />
-    <bpmn:sequenceFlow id="Flow_CondStart" sourceRef="Event_ConditionalStart" targetRef="Gateway_Complex" />
-    <bpmn:sequenceFlow id="Flow_ComplexOut" sourceRef="Gateway_Complex" targetRef="Event_SignalThrow" />
-    <bpmn:sequenceFlow id="Flow_SignalToLink" sourceRef="Event_SignalThrow" targetRef="Event_LinkThrow" />
-    <bpmn:sequenceFlow id="Flow_LinkToCompensate" sourceRef="Event_LinkCatch" targetRef="Event_CompensateThrow" />
-    <bpmn:sequenceFlow id="Flow_CompToEnd2" sourceRef="Event_CompensateThrow" targetRef="Event_EndCompensate" />
     <bpmn:sequenceFlow id="Flow_TimerToEscalation" sourceRef="Event_TimerIntermediate" targetRef="Event_EscalationThrow" />
     <bpmn:sequenceFlow id="Flow_EscToEnd3" sourceRef="Event_EscalationThrow" targetRef="Event_EndEscalation" />
-    <bpmn:sequenceFlow id="Flow_SubToCancel" sourceRef="SubProcess_1" targetRef="Event_EndCancel" />
     <bpmn:sequenceFlow id="Flow_BoundaryTimer" sourceRef="Event_BoundaryTimer" targetRef="Event_EndMessage" />
     <bpmn:sequenceFlow id="Flow_BoundaryError" sourceRef="Event_BoundaryError" targetRef="Event_EndError" />
     <bpmn:sequenceFlow id="Flow_BoundaryMsg" sourceRef="Event_BoundaryMsg" targetRef="Event_EndTerminate" />
+    <bpmn:endEvent id="Event_EndCompensate" name="Compensated">
+      <bpmn:compensateEventDefinition id="CompDef_End" />
+    </bpmn:endEvent>
+    <bpmn:intermediateThrowEvent id="Event_CompensateThrow" name="Trigger Compensation">
+      <bpmn:compensateEventDefinition id="CompDef_Throw" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:subProcess id="SubProcess_1" name="Handle Returns">
+      <bpmn:incoming>Flow_ExDefault</bpmn:incoming>
+      <bpmn:outgoing>Flow_SubToCancel</bpmn:outgoing>
+      <bpmn:startEvent id="Event_SubStart">
+        <bpmn:outgoing>Flow_Sub1</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:userTask id="Task_SubUser" name="Process Refund">
+        <bpmn:incoming>Flow_Sub1</bpmn:incoming>
+        <bpmn:outgoing>Flow_Sub2</bpmn:outgoing>
+      </bpmn:userTask>
+      <bpmn:endEvent id="Event_SubEnd">
+        <bpmn:incoming>Flow_Sub2</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="Flow_Sub1" sourceRef="Event_SubStart" targetRef="Task_SubUser" />
+      <bpmn:sequenceFlow id="Flow_Sub2" sourceRef="Task_SubUser" targetRef="Event_SubEnd" />
+    </bpmn:subProcess>
+    <bpmn:endEvent id="Event_EndSignal" name="Signal Sent">
+      <bpmn:incoming>Flow_BoundarySignal</bpmn:incoming>
+      <bpmn:signalEventDefinition id="SignalDef_End" signalRef="Signal_Warehouse" />
+    </bpmn:endEvent>
+    <bpmn:boundaryEvent id="Event_BoundarySignal" cancelActivity="false" attachedToRef="SubProcess_1">
+      <bpmn:outgoing>Flow_BoundarySignal</bpmn:outgoing>
+      <bpmn:signalEventDefinition id="SignalDef_Boundary" signalRef="Signal_Priority" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_SubToCancel" sourceRef="SubProcess_1" targetRef="Event_EndCancel" />
     <bpmn:sequenceFlow id="Flow_BoundarySignal" sourceRef="Event_BoundarySignal" targetRef="Event_EndSignal" />
+    <bpmn:endEvent id="Event_EndCancel" name="Order Cancelled">
+      <bpmn:incoming>Flow_SubToCancel</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:dataStoreReference id="DataStore_1" name="Order Database" />
+    <bpmn:dataObjectReference id="DataObject_1" name="Order Data" dataObjectRef="DataObj_1" />
+    <bpmn:dataObject id="DataObj_1" />
     <bpmn:textAnnotation id="TextAnnotation_1">
       <bpmn:text>All orders must be validated within 24 hours</bpmn:text>
     </bpmn:textAnnotation>
@@ -332,7 +310,7 @@
       <bpmndi:BPMNShape id="Gateway_Exclusive_di" bpmnElement="Gateway_Exclusive" isMarkerVisible="true">
         <dc:Bounds x="625" y="285" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="614" y="342" width="73" height="14" />
+          <dc:Bounds x="611" y="261" width="77" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_Parallel_Split_di" bpmnElement="Gateway_Parallel_Split">
@@ -398,29 +376,23 @@
           <dc:Bounds x="718" y="185" width="85" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_CompensateThrow_di" bpmnElement="Event_CompensateThrow">
-        <dc:Bounds x="832" y="142" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="806" y="185" width="88" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_EscalationThrow_di" bpmnElement="Event_EscalationThrow">
         <dc:Bounds x="2042" y="222" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="2016" y="198" width="88" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="SubProcess_1_di" bpmnElement="SubProcess_1" isExpanded="true">
-        <dc:Bounds x="550" y="470" width="350" height="160" />
+      <bpmndi:BPMNShape id="Event_EndCompensate_di" bpmnElement="Event_EndCompensate">
+        <dc:Bounds x="952" y="142" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="936" y="185" width="69" height="14" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_SubStart_di" bpmnElement="Event_SubStart">
-        <dc:Bounds x="580" y="532" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_SubUser_di" bpmnElement="Task_SubUser">
-        <dc:Bounds x="660" y="510" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_SubEnd_di" bpmnElement="Event_SubEnd">
-        <dc:Bounds x="812" y="532" width="36" height="36" />
+      <bpmndi:BPMNShape id="Event_CompensateThrow_di" bpmnElement="Event_CompensateThrow">
+        <dc:Bounds x="812" y="142" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="795" y="185" width="71" height="27" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="CallActivity_1_di" bpmnElement="CallActivity_1">
         <dc:Bounds x="2090" y="330" width="100" height="80" />
@@ -437,22 +409,10 @@
           <dc:Bounds x="482" y="475" width="76" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_EndSignal_di" bpmnElement="Event_EndSignal">
-        <dc:Bounds x="552" y="682" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="542" y="725" width="57" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_EndTerminate_di" bpmnElement="Event_EndTerminate">
         <dc:Bounds x="872" y="142" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="855" y="118" width="70" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_EndCancel_di" bpmnElement="Event_EndCancel">
-        <dc:Bounds x="952" y="532" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="932" y="575" width="76" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_EndEscalation_di" bpmnElement="Event_EndEscalation">
@@ -461,35 +421,53 @@
           <dc:Bounds x="2124" y="265" width="52" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_EndCompensate_di" bpmnElement="Event_EndCompensate">
-        <dc:Bounds x="922" y="142" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="907" y="185" width="66" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_EndMessage_di" bpmnElement="Event_EndMessage">
         <dc:Bounds x="352" y="432" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="328" y="475" width="85" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="DataObject_1_di" bpmnElement="DataObject_1">
-        <dc:Bounds x="1152" y="430" width="36" height="50" />
+      <bpmndi:BPMNShape id="Event_EndSignal_di" bpmnElement="Event_EndSignal">
+        <dc:Bounds x="672" y="722" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1142" y="487" width="57" height="14" />
+          <dc:Bounds x="662" y="765" width="57" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1w39kns_di" bpmnElement="Event_EndCancel">
+        <dc:Bounds x="1072" y="572" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1050" y="615" width="81" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="DataStore_1_di" bpmnElement="DataStore_1">
-        <dc:Bounds x="1625" y="430" width="50" height="50" />
+        <dc:Bounds x="1465" y="505" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1614" y="487" width="76" height="14" />
+          <dc:Bounds x="1453" y="562" width="79" height="14" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataObject_1_di" bpmnElement="DataObject_1">
+        <dc:Bounds x="1372" y="510" width="36" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1363" y="567" width="55" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SubProcess_1_di" bpmnElement="SubProcess_1" isExpanded="true">
+        <dc:Bounds x="670" y="510" width="350" height="160" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_SubStart_di" bpmnElement="Event_SubStart">
+        <dc:Bounds x="700" y="572" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_SubUser_di" bpmnElement="Task_SubUser">
+        <dc:Bounds x="780" y="550" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_SubEnd_di" bpmnElement="Event_SubEnd">
+        <dc:Bounds x="932" y="572" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_BoundarySignal_di" bpmnElement="Event_BoundarySignal">
+        <dc:Bounds x="672" y="652" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1_di" bpmnElement="TextAnnotation_1">
         <dc:Bounds x="230" y="390" width="180" height="30" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_BoundarySignal_di" bpmnElement="Event_BoundarySignal">
-        <dc:Bounds x="552" y="612" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_BoundaryMsg_di" bpmnElement="Event_BoundaryMsg">
         <dc:Bounds x="872" y="202" width="36" height="36" />
@@ -521,10 +499,10 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_ExDefault_di" bpmnElement="Flow_ExDefault">
         <di:waypoint x="650" y="335" />
-        <di:waypoint x="650" y="550" />
-        <di:waypoint x="550" y="550" />
+        <di:waypoint x="650" y="590" />
+        <di:waypoint x="670" y="590" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="658" y="440" width="15" height="14" />
+          <dc:Bounds x="652" y="433" width="15" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_Par1_di" bpmnElement="Flow_Par1">
@@ -605,34 +583,6 @@
         <di:waypoint x="2190" y="370" />
         <di:waypoint x="2242" y="370" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_TimerStart_di" bpmnElement="Flow_TimerStart">
-        <di:waypoint x="268" y="160" />
-        <di:waypoint x="465" y="160" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_SignalStart_di" bpmnElement="Flow_SignalStart">
-        <di:waypoint x="338" y="160" />
-        <di:waypoint x="465" y="160" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_CondStart_di" bpmnElement="Flow_CondStart">
-        <di:waypoint x="408" y="160" />
-        <di:waypoint x="465" y="160" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_ComplexOut_di" bpmnElement="Flow_ComplexOut">
-        <di:waypoint x="515" y="160" />
-        <di:waypoint x="572" y="160" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_SignalToLink_di" bpmnElement="Flow_SignalToLink">
-        <di:waypoint x="608" y="160" />
-        <di:waypoint x="652" y="160" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_LinkToCompensate_di" bpmnElement="Flow_LinkToCompensate">
-        <di:waypoint x="778" y="160" />
-        <di:waypoint x="832" y="160" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_CompToEnd2_di" bpmnElement="Flow_CompToEnd2">
-        <di:waypoint x="868" y="160" />
-        <di:waypoint x="922" y="160" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_TimerToEscalation_di" bpmnElement="Flow_TimerToEscalation">
         <di:waypoint x="1988" y="240" />
         <di:waypoint x="2042" y="240" />
@@ -640,10 +590,6 @@
       <bpmndi:BPMNEdge id="Flow_EscToEnd3_di" bpmnElement="Flow_EscToEnd3">
         <di:waypoint x="2078" y="240" />
         <di:waypoint x="2132" y="240" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_SubToCancel_di" bpmnElement="Flow_SubToCancel">
-        <di:waypoint x="900" y="550" />
-        <di:waypoint x="952" y="550" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_BoundaryTimer_di" bpmnElement="Flow_BoundaryTimer">
         <di:waypoint x="370" y="368" />
@@ -657,13 +603,17 @@
         <di:waypoint x="890" y="202" />
         <di:waypoint x="890" y="178" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_BoundarySignal_di" bpmnElement="Flow_BoundarySignal">
-        <di:waypoint x="570" y="648" />
-        <di:waypoint x="570" y="682" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_1_di" bpmnElement="Association_1">
         <di:waypoint x="340" y="350" />
         <di:waypoint x="310" y="390" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_SubToCancel_di" bpmnElement="Flow_SubToCancel">
+        <di:waypoint x="1020" y="590" />
+        <di:waypoint x="1072" y="590" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_BoundarySignal_di" bpmnElement="Flow_BoundarySignal">
+        <di:waypoint x="690" y="688" />
+        <di:waypoint x="690" y="722" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Participant_External_di" bpmnElement="Participant_External" isHorizontal="true">
         <dc:Bounds x="160" y="1030" width="600" height="160" />
@@ -698,12 +648,12 @@
         <di:waypoint x="570" y="1110" />
         <di:waypoint x="622" y="1110" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Participant_11ygg33_di" bpmnElement="Participant_11ygg33" isHorizontal="true">
-        <dc:Bounds x="160" y="1250" width="600" height="70" />
+      <bpmndi:BPMNShape id="Participant_01godyv_di" bpmnElement="Participant_0hzlcb8" isHorizontal="true">
+        <dc:Bounds x="870" y="1140" width="600" height="60" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Participant_01godyv_di" bpmnElement="Participant_0hzlcb8" isHorizontal="true">
-        <dc:Bounds x="820" y="1060" width="600" height="60" />
+      <bpmndi:BPMNShape id="Participant_11ygg33_di" bpmnElement="Participant_11ygg33" isHorizontal="true">
+        <dc:Bounds x="870" y="1230" width="600" height="70" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="MsgFlow_1_di" bpmnElement="MsgFlow_1">
@@ -717,6 +667,10 @@
         <di:waypoint x="520" y="1000" />
         <di:waypoint x="1790" y="1000" />
         <di:waypoint x="1790" y="328" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0fzerqj_di" bpmnElement="Flow_0fzerqj">
+        <di:waypoint x="1170" y="1140" />
+        <di:waypoint x="1170" y="980" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

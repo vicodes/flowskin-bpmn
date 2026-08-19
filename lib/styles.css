@@ -43,7 +43,7 @@ tspan {
 }
 
 /* Suppress default dashes except animated ones and groups */
-.djs-visual path:not([data-anim-id]),
+.djs-visual path:not([data-anim-id]):not([data-message-flow]),
 .djs-visual rect:not([data-group-box]),
 .djs-visual polygon {
   stroke-dasharray: none !important;
