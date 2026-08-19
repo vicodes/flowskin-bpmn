@@ -1,0 +1,27 @@
+lib/renderer/BeatRenderer.js
+  s_69520820bb879c::t_ae573f06873d71 65
+  s_69520820bb879c::t_ce01b037fc005c 5
+lib/styles.css
+  s_69520820bb879c::t_a50d58df2ac669 46
+lib/utils.js
+  s_69520820bb879c::t_05842555a4261d 88-89
+lib/renderer/edges.js
+  s_69520820bb879c::t_2020486a96eaba 127
+  s_69520820bb879c::t_1bc902df47450e 117-126,128-151
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "fb72384936215f0fbc1fad9c7e5b51f9274a9af0",
+  "prompts": {},
+  "sessions": {
+    "s_69520820bb879c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2a7c2bae-a01c-420e-b483-60d9d00097ee",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Mohit Singh <mohitsinghibm@gmail.com>"
+    }
+  }
+}
