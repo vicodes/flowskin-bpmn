@@ -1,0 +1,27 @@
+demo/main.js
+  s_69520820bb879c::t_56601f3c833df6 7,14,30,32-33,35-40,50-51,54,201
+  s_69520820bb879c::t_3056d85453f04f 9,15-16,21-29,31,34,41-49,52,64,66,161,166,176,178,203
+  s_69520820bb879c::t_6710d780e3fa9d 53
+demo/index.html
+  s_69520820bb879c::t_ce094869bf3e3e 30,33
+  s_69520820bb879c::t_34ac397caeff70 25-29,31-32
+demo/styles.css
+  s_69520820bb879c::t_c2122ccaf74b32 77-79,109-110,148-162,165-166
+  s_69520820bb879c::t_67b50b3445a892 74,80-108,111-147,163-164,167-168
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "5e999cdb17e9ff1c937c6b606e2de40b9f0f2207",
+  "prompts": {},
+  "sessions": {
+    "s_69520820bb879c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2a7c2bae-a01c-420e-b483-60d9d00097ee",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Mohit Singh <mohitsinghibm@gmail.com>"
+    }
+  }
+}
