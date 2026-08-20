@@ -4,17 +4,54 @@ import sampleXml from './sample.bpmn?raw';
 
 const themeValue = localStorage.getItem('beat-theme') || 'dark';
 
+// Beat (top layer, clipped)
 const beat = createFlowSkinBPMN({
-  container: '#canvas',
+  container: '#canvas-beat',
   theme: themeValue,
   hoverCard: true,
 });
+
+// Raw/Original (behind)
+const rawViewer = new BpmnViewer({ container: '#canvas-raw' });
 
 let modelerInstance = null;
 let isModelerMode = false;
 let currentXml = sampleXml;
 
-beat.loadXml(sampleXml);
+function loadBoth(xml) {
+  beat.loadXml(xml);
+  rawViewer.importXML(xml).then(() => {
+    rawViewer.get('canvas').zoom('fit-viewport', 'auto');
+  });
+}
+
+loadBoth(sampleXml);
+
+// Draggable splitter — clip-path based
+const splitter = document.getElementById('splitter');
+const container = document.getElementById('compare-container');
+const beatPane = document.getElementById('canvas-beat');
+let dragging = false;
+
+function setSplitAt(pct) {
+  const right = 100 - pct;
+  beatPane.style.clipPath = `inset(0 ${right}% 0 0)`;
+  splitter.style.left = pct + '%';
+}
+
+splitter.addEventListener('mousedown', (e) => {
+  dragging = true;
+  e.preventDefault();
+});
+
+document.addEventListener('mousemove', (e) => {
+  if (!dragging) return;
+  const rect = container.getBoundingClientRect();
+  const pct = Math.max(5, Math.min(95, ((e.clientX - rect.left) / rect.width) * 100));
+  setSplitAt(pct);
+});
+
+document.addEventListener('mouseup', () => { dragging = false; });
 
 // File import
 document.getElementById('file-input').addEventListener('change', (e) => {
@@ -24,8 +61,9 @@ document.getElementById('file-input').addEventListener('change', (e) => {
     currentXml = xml;
     if (isModelerMode && modelerInstance) {
       modelerInstance.loadXml(xml);
+      rawViewer.importXML(xml).then(() => rawViewer.get('canvas').zoom('fit-viewport', 'auto'));
     } else {
-      beat.loadXml(xml);
+      loadBoth(xml);
     }
   });
 });
@@ -116,29 +154,28 @@ if (modelerBtn) {
     if (stopCurrentAnim) { stopCurrentAnim(); stopCurrentAnim = null; }
 
     if (!isModelerMode) {
-      // Switch to modeler
       beat.getViewer().detach();
 
       if (!modelerInstance) {
         modelerInstance = createFlowSkinModeler({
-          container: '#canvas',
+          container: '#canvas-beat',
           theme: localStorage.getItem('beat-theme') || 'dark',
           hoverCard: false,
         });
       } else {
-        modelerInstance.getModeler().attachTo('#canvas');
+        modelerInstance.getModeler().attachTo('#canvas-beat');
       }
 
       await modelerInstance.loadXml(currentXml);
       isModelerMode = true;
       modelerBtn.textContent = 'Viewer';
     } else {
-      // Switch back to viewer — save current state first
       currentXml = await modelerInstance.saveXml();
       modelerInstance.getModeler().detach();
 
-      beat.getViewer().attachTo('#canvas');
+      beat.getViewer().attachTo('#canvas-beat');
       await beat.loadXml(currentXml);
+      rawViewer.importXML(currentXml).then(() => rawViewer.get('canvas').zoom('fit-viewport', 'auto'));
       isModelerMode = false;
       modelerBtn.textContent = 'Modeler';
     }
@@ -161,27 +198,6 @@ if (saveBtn) {
   });
 }
 
-// Raw BPMN toggle
+// Raw toggle — hidden, comparison is always on
 const rawBtn = document.getElementById('raw-toggle');
-let isRaw = false;
-let rawViewer = null;
-
-rawBtn.addEventListener('click', () => {
-  if (isModelerMode) return; // disable raw toggle in modeler mode
-
-  isRaw = !isRaw;
-  rawBtn.textContent = isRaw ? 'Beat' : 'Raw';
-
-  if (isRaw) {
-    beat.getViewer().detach();
-    if (!rawViewer) rawViewer = new BpmnViewer({ container: '#canvas' });
-    else rawViewer.attachTo('#canvas');
-    rawViewer.importXML(currentXml).then(() => {
-      rawViewer.get('canvas').zoom('fit-viewport', 'auto');
-    });
-  } else {
-    if (rawViewer) rawViewer.detach();
-    beat.getViewer().attachTo('#canvas');
-    beat.loadXml(currentXml);
-  }
-});
+if (rawBtn) rawBtn.style.display = 'none';

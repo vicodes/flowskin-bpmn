@@ -22,7 +22,15 @@
     <a href="./flatten.html" class="theme-btn" style="text-decoration:none;" title="Flatten BPMN demo">Flatten</a>
     <button id="theme-toggle" class="theme-btn" title="Toggle theme">☀</button>
   </div>
-  <div id="canvas"></div>
+  <div id="compare-container">
+    <div id="canvas-raw"></div>
+    <div id="canvas-beat"></div>
+    <div id="splitter">
+      <div class="splitter-handle"></div>
+    </div>
+    <div class="pane-label label-left">Beat</div>
+    <div class="pane-label label-right">Original</div>
+  </div>
   <script type="module" src="./main.js"></script>
 </body>
 </html>
