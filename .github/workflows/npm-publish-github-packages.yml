@@ -68,14 +68,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          # Do not set registry-url. It writes _authToken=${NODE_AUTH_TOKEN}
-          # into .npmrc, which makes npm skip OIDC and use the 2FA user token.
+          registry-url: https://registry.npmjs.org
       - run: npm ci
       - run: npm version "${{ needs.release.outputs.new_version }}" --no-git-tag-version
-      # Trusted publisher on npmjs.com (package → Access → Trusted Publisher):
-      #   GitHub Actions / vicodes / flowskin-bpmn / npm-publish-github-packages.yml
+      # Trusted publisher: GitHub Actions / vicodes / flowskin-bpmn / npm-publish-github-packages.yml
+      # setup-node writes _authToken=${NODE_AUTH_TOKEN}; an empty token skips OIDC (ENEEDAUTH).
       - name: Publish to npm
-        env:
-          NODE_AUTH_TOKEN: ''
-          NPM_TOKEN: ''
-        run: npm publish --access public --provenance
+        run: |
+          if [ -n "${NPM_CONFIG_USERCONFIG:-}" ] && [ -f "$NPM_CONFIG_USERCONFIG" ]; then
+            sed -i '/_authToken/d' "$NPM_CONFIG_USERCONFIG"
+          fi
+          npm publish --access public --provenance
