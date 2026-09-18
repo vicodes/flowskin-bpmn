@@ -1,0 +1,60 @@
+lib/modeler.js
+  s_c2c3c8165e36aa::t_4a71b1253d643d 60-61,67-78
+  s_c2c3c8165e36aa::t_c68914d7a9054c 212-236
+  s_c2c3c8165e36aa::t_8f5bbf15201998 281-284
+lib/renderer/shapes.js
+  s_c2c3c8165e36aa::t_5154d994481be6 54
+  s_c2c3c8165e36aa::t_5c2a44e12d3693 118-119
+  s_c2c3c8165e36aa::t_7400f0f633fdc8 12-14
+  s_c2c3c8165e36aa::t_ade6fefbbe604d 5
+  s_c2c3c8165e36aa::t_b06d8f0bfdcd9a 76-77
+  s_c2c3c8165e36aa::t_9a1b24653c92cc 60
+lib/renderer/markers.js
+  s_c2c3c8165e36aa::t_0c8b8c331d4913 1-31,33-41,45,48-50,53-88
+  s_c2c3c8165e36aa::t_c4951dcb065d31 32
+  s_c2c3c8165e36aa::t_94ad2c3f2a3883 42-44,46-47,51-52
+demo/sample.bpmn
+  h_c73aab011da5e6 199,203,205,209,213-214,232-261,465-476,478-485,510-512,514-515,517-519,521-522,524-544,546-553,557-558,743-744
+  h_c73aab011da5e6 454-464,477,559,702-705,745-746
+README.md
+  s_c2c3c8165e36aa::t_b443bc2072122f 55
+  s_c2c3c8165e36aa::t_9715281f3adf8d 108-113
+lib/index.js
+  s_c2c3c8165e36aa::t_01ea7f950e3819 150-174,185-188
+  s_c2c3c8165e36aa::t_723fde15451014 38-39,45-56
+demo/main.js
+  s_c2c3c8165e36aa::t_6961384235ed07 195
+  s_c2c3c8165e36aa::t_46b72fe8067c62 227-228,238-240
+  s_c2c3c8165e36aa::t_a6a2036ca93945 243
+  s_c2c3c8165e36aa::t_0d2ffff607a6d0 231
+  s_c2c3c8165e36aa::t_3241aeaed9c624 21-60,65-66
+  s_c2c3c8165e36aa::t_ca66eaaec04b09 105
+  s_c2c3c8165e36aa::t_cf43471a912e4e 67,191-194,196-206
+  s_c2c3c8165e36aa::t_164ee57a315e86 68
+demo/index.html
+  s_c2c3c8165e36aa::t_af969a0d2019ef 19
+lib/hoverCard.js
+  s_c2c3c8165e36aa::t_cab42f3161efa4 63,65,67-76
+  s_c2c3c8165e36aa::t_ca9ef918c6b486 3-8,20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "f7564f8126448c2c12d77177d947309e80647acc",
+  "prompts": {},
+  "humans": {
+    "h_c73aab011da5e6": {
+      "author": "Mohit Singh <mohitsinghibm@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_c2c3c8165e36aa": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "68274048-8f97-4f57-afa4-b52d61576212",
+        "model": "auto-smart"
+      },
+      "human_author": "Mohit Singh <mohitsinghibm@gmail.com>"
+    }
+  }
+}
