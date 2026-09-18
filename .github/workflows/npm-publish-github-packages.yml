@@ -71,6 +71,10 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: npm version "${{ needs.release.outputs.new_version }}" --no-git-tag-version
-      - run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      # OIDC trusted publishing — do not set NODE_AUTH_TOKEN (user tokens prompt for OTP in CI).
+      # Configure on npm: package → Settings → Trusted Publisher
+      #   Publisher: GitHub Actions
+      #   Organization: vicodes
+      #   Repository: flowskin-bpmn
+      #   Workflow filename: npm-publish-github-packages.yml
+      - run: npm publish --access public --provenance

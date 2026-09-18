@@ -38,12 +38,16 @@
     "workflow"
   ],
   "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/user/flowskin-bpmn"
+    "url": "git+https://github.com/vicodes/flowskin-bpmn.git"
   },
-  "homepage": "https://github.com/user/flowskin-bpmn#readme",
+  "homepage": "https://github.com/vicodes/flowskin-bpmn#readme",
   "bugs": {
-    "url": "https://github.com/user/flowskin-bpmn/issues"
+    "url": "https://github.com/vicodes/flowskin-bpmn/issues"
   }
 }
