@@ -18,11 +18,52 @@ let modelerInstance = null;
 let isModelerMode = false;
 let currentXml = sampleXml;
 
-function loadBoth(xml) {
-  beat.loadXml(xml);
-  rawViewer.importXML(xml).then(() => {
+// The panes are stacked and clipped, so the pointer only ever reaches one of them.
+// Mirror the viewbox both ways so pan/zoom on either side moves the comparison as a whole.
+function sameViewbox(a, b) {
+  return Math.abs(a.x - b.x) < 0.5 &&
+    Math.abs(a.y - b.y) < 0.5 &&
+    Math.abs(a.scale - b.scale) < 0.001;
+}
+
+let syncingViewports = false;
+
+function linkViewports(a, b) {
+  const unlinks = [[a, b], [b, a]].map(([from, to]) => {
+    const onChange = (event) => {
+      if (syncingViewports) return;
+
+      const box = event.viewbox;
+      if (!box || !box.width || !box.height) return;
+
+      const target = to.get('canvas');
+      if (sameViewbox(box, target.viewbox())) return;
+
+      syncingViewports = true;
+      try {
+        target.viewbox({ x: box.x, y: box.y, width: box.width, height: box.height });
+      } finally {
+        syncingViewports = false;
+      }
+    };
+
+    from.get('eventBus').on('canvas.viewbox.changed', onChange);
+    return () => from.get('eventBus').off('canvas.viewbox.changed', onChange);
+  });
+
+  return () => unlinks.forEach((unlink) => unlink());
+}
+
+let unlinkViewports = linkViewports(beat.getViewer(), rawViewer);
+
+function loadRaw(xml) {
+  return rawViewer.importXML(xml).then(() => {
     rawViewer.get('canvas').zoom('fit-viewport', 'auto');
   });
+}
+
+function loadBoth(xml) {
+  return Promise.all([beat.loadXml(xml), loadRaw(xml)]);
 }
 
 loadBoth(sampleXml);
@@ -61,7 +102,7 @@ document.getElementById('file-input').addEventListener('change', (e) => {
     currentXml = xml;
     if (isModelerMode && modelerInstance) {
       modelerInstance.loadXml(xml);
-      rawViewer.importXML(xml).then(() => rawViewer.get('canvas').zoom('fit-viewport', 'auto'));
+      loadRaw(xml);
     } else {
       loadBoth(xml);
     }
@@ -147,6 +188,22 @@ if (badgeBtn) {
   });
 }
 
+// Hover card toggle
+const hoverCardBtn = document.getElementById('hovercard-toggle');
+
+function updateHoverCardBtn() {
+  if (!hoverCardBtn) return;
+  hoverCardBtn.textContent = 'Hover Card: ' + (getActiveInstance().isHoverCardEnabled() ? 'On' : 'Off');
+}
+
+if (hoverCardBtn) {
+  updateHoverCardBtn();
+  hoverCardBtn.addEventListener('click', () => {
+    getActiveInstance().toggleHoverCard();
+    updateHoverCardBtn();
+  });
+}
+
 // Modeler toggle
 const modelerBtn = document.getElementById('modeler-toggle');
 if (modelerBtn) {
@@ -167,17 +224,23 @@ if (modelerBtn) {
       }
 
       await modelerInstance.loadXml(currentXml);
+      unlinkViewports();
+      unlinkViewports = linkViewports(modelerInstance.getModeler(), rawViewer);
       isModelerMode = true;
       modelerBtn.textContent = 'Viewer';
+      updateHoverCardBtn();
     } else {
       currentXml = await modelerInstance.saveXml();
       modelerInstance.getModeler().detach();
 
       beat.getViewer().attachTo('#canvas-beat');
       await beat.loadXml(currentXml);
-      rawViewer.importXML(currentXml).then(() => rawViewer.get('canvas').zoom('fit-viewport', 'auto'));
+      unlinkViewports();
+      unlinkViewports = linkViewports(beat.getViewer(), rawViewer);
+      loadRaw(currentXml);
       isModelerMode = false;
       modelerBtn.textContent = 'Modeler';
+      updateHoverCardBtn();
     }
   });
 }

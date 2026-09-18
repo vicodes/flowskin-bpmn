@@ -52,7 +52,7 @@ await renderer.loadXml(bpmnXmlString);
 |--------|------|---------|-------------|
 | `container` | `string \| HTMLElement` | required | CSS selector or DOM element |
 | `theme` | `'dark' \| 'light'` | `'dark'` | Initial color theme |
-| `hoverCard` | `boolean` | `true` | Show details card on hover |
+| `hoverCard` | `boolean` | `true` | Show details card on hover (toggle later with `setHoverCard`) |
 
 Returns a renderer instance with these methods:
 
@@ -104,6 +104,12 @@ renderer.clearNodeStates(['Task_1', 'Task_2']);
 
 // Clear all badges
 renderer.clearNodeStates();
+
+// Hover details card — switch on/off at any time
+renderer.setHoverCard(false);           // off
+renderer.setHoverCard(true);            // on
+renderer.toggleHoverCard();             // flip, returns the new state
+renderer.isHoverCardEnabled();          // -> boolean
 
 // Access underlying bpmn-js viewer
 const viewer = renderer.getViewer();
