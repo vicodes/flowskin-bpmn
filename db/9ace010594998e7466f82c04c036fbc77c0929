@@ -1,0 +1,19 @@
+.github/workflows/npm-publish-github-packages.yml
+  s_c2c3c8165e36aa::t_03a38cbe611a95 71,74-75,77-81
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "db9ace010594998e7466f82c04c036fbc77c0929",
+  "prompts": {},
+  "sessions": {
+    "s_c2c3c8165e36aa": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "68274048-8f97-4f57-afa4-b52d61576212",
+        "model": "auto-smart"
+      },
+      "human_author": "Mohit Singh <mohitsinghibm@gmail.com>"
+    }
+  }
+}
