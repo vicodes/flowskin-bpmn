@@ -1,0 +1,28 @@
+lib/renderer/icons.js
+  s_742f9d75688483::t_ee3eb63a3116b7 27-33
+lib/renderer/shapes.js
+  s_742f9d75688483::t_b5908597f0c6d5 158
+  s_742f9d75688483::t_424a1b1989bc7d 4
+  s_742f9d75688483::t_23d39a95dc5370 206-207,209-210
+  s_742f9d75688483::t_bc6c1b15153e13 42
+  s_742f9d75688483::t_f4724b5590e759 154,156,159
+  s_742f9d75688483::t_c58a7529776174 40-41,43-48
+  s_742f9d75688483::t_3ad6c534c3eacb 198-205,208
+  s_742f9d75688483::t_a368ca162db8c6 157
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b9486dcbb6e7fe9822d73d0e28ad9fa68a4f8906",
+  "prompts": {},
+  "sessions": {
+    "s_742f9d75688483": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "087aa1b6-334b-419e-b09a-caf9532b22d0",
+        "model": "unknown"
+      },
+      "human_author": "Mohit Singh <mohitsinghibm@gmail.com>"
+    }
+  }
+}
