@@ -1,0 +1,20 @@
+lib/icons/service-task.svg
+  s_f00ef1b364951d::t_de622cfd7ad2df 1-4,9
+  s_f00ef1b364951d::t_1f5836e4f086b1 5-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "71e5e3d080cdfd226f756ed144ea70461b59af15",
+  "prompts": {},
+  "sessions": {
+    "s_f00ef1b364951d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5a23dc52-580d-4226-a6e9-f2958f43f438",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Mohit Singh <mohitsinghibm@gmail.com>"
+    }
+  }
+}
